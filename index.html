@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CampusPulse</title>
+<meta name="theme-color" content="#2e2bb8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CampusPulse">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f5fa;--card:#fff;--ink:#16193a;--mute:#5d6385;--line:#dde2ee;--pri:#2e2bb8;--pri-t:#fff;--ok:#0b8a6f;--warn:#b86e00;--bad:#c2303f;--soft:#e6e8fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10122b;--card:#1a1d3f;--ink:#eceefc;--mute:#9ba1cc;--line:#2c3063;--pri:#8c8cff;--pri-t:#10122b;--ok:#3fd1b0;--warn:#f0b34a;--bad:#ff7b87;--soft:#262a5c}}
+:root[data-theme="dark"]{--bg:#10122b;--card:#1a1d3f;--ink:#eceefc;--mute:#9ba1cc;--line:#2c3063;--pri:#8c8cff;--pri-t:#10122b;--ok:#3fd1b0;--warn:#f0b34a;--bad:#ff7b87;--soft:#262a5c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,sans-serif;margin:0;line-height:1.15}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.logo{font:800 22px 'Bricolage Grotesque',sans-serif;letter-spacing:-.5px}.logo i{color:var(--pri);font-style:normal}
+nav{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:12px}
+nav button{border:0;background:none;color:var(--mute);padding:8px 14px;border-radius:9px;font:600 14px Figtree;cursor:pointer}
+nav button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px #0003}
+main{max-width:1000px;margin:0 auto;padding:22px 16px 60px}
+.hero{margin-bottom:18px}.hero h1{font-size:clamp(26px,5vw,38px)}.hero p{color:var(--mute);margin:6px 0 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 13px;font:500 13px Figtree;cursor:pointer}
+.chip.on{background:var(--pri);color:var(--pri-t);border-color:var(--pri)}
+.btn{background:var(--pri);color:var(--pri-t);border:0;border-radius:10px;padding:9px 16px;font:600 14px Figtree;cursor:pointer}
+.btn.alt{background:var(--soft);color:var(--ink)}.btn.bad{background:var(--bad);color:#fff}.btn:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.ev{display:flex;flex-direction:column;gap:8px}.ev h3{font-size:18px}
+.meta{color:var(--mute);font-size:13px}
+.tag{font:600 12px Figtree;padding:2px 9px;border-radius:99px;background:var(--soft)}
+.tag.approved{color:var(--ok)}.tag.pending{color:var(--warn)}.tag.rejected{color:var(--bad)}
+.match{color:var(--pri);font-weight:600;font-size:13px}
+.bar{height:8px;background:var(--soft);border-radius:9px;overflow:hidden}.bar b{display:block;height:100%;background:var(--pri)}.bar.in b{background:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:640px){.two{grid-template-columns:1fr}}
+label{font-size:13px;color:var(--mute);display:block;margin-bottom:3px}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--mute)}
+.box{border-radius:10px;padding:10px 12px;font-size:14px;margin:10px 0}
+.box.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.box.bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.box.info{background:var(--soft)}
+.log{font-size:13px;color:var(--mute);border-left:2px solid var(--line);padding-left:10px;margin:8px 0 0}
+dialog{border:0;border-radius:16px;background:var(--card);color:var(--ink);padding:22px;max-width:340px;text-align:center}
+dialog::backdrop{background:#0008}
+canvas{image-rendering:pixelated;width:200px;height:200px;background:#fff;border-radius:8px;padding:8px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}.kpi b{font:800 26px 'Bricolage Grotesque'}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+#toast.show{opacity:1}
+nav .ic{display:none}
+@media(max-width:700px){
+body{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+header{padding:12px 16px}
+nav{position:fixed;left:0;right:0;bottom:0;border-radius:0;gap:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:6}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11px;background:none}
+nav button.on{background:var(--soft);box-shadow:none;color:var(--pri)}
+nav .ic{display:block;font-size:20px;line-height:1}
+main{padding:16px 14px calc(96px + env(safe-area-inset-bottom,0px))}
+input,select,textarea{font-size:16px}
+.btn{padding:12px 18px}
+.grid{grid-template-columns:1fr}
+#toast{bottom:calc(84px + env(safe-area-inset-bottom,0px));width:max-content;max-width:90%}
+}
+</style>
+</head>
+<body>
+<header><div class="logo" style="cursor:pointer" onclick="go('home')">Campus<i>Pulse</i></div>
+<nav id="nav"></nav></header>
+<main id="app"></main>
+<dialog id="dlg"></dialog><div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s);
+const VEN=[{n:'Main Auditorium',c:600},{n:'Seminar Hall A',c:120},{n:'CS Lab 2',c:60},{n:'Open Air Theatre',c:400}];
+const CATS=['Tech','Cultural','Sports','Career','Workshop'];
+const NAMES=['Asha','Ravi','Meena','Karthik','Divya','Imran','Priya','Suresh','Lakshmi','Arjun','Nisha','Vikram'];
+const mm=t=>+t.slice(0,2)*60+ +t.slice(3), hh=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+let uid=100;
+function mk(title,cat,date,start,end,venue,cap,status,reg,chk,desc){
+  const tickets=Array.from({length:reg},(_,i)=>({id:'CP-'+(++uid),name:NAMES[i%12]+' '+(i+1),in:i<chk}));
+  return {id:++uid,title,cat,date,start,end,venue,cap,status,desc,tickets,log:[{m:'Submitted'}].concat(status!=='pending'?[{m:status==='approved'?'Approved by Dean Office':'Rejected'}]:[])};
+}
+let E=[
+ mk('HackSprint 26','Tech','2026-10-24','09:00','17:00','CS Lab 2',60,'approved',48,0,'Eight-hour build sprint with mentors.'),
+ mk('Rangoli & Folk Night','Cultural','2026-10-22','18:00','21:00','Open Air Theatre',400,'approved',210,0,'Student troupes perform folk and classical sets.'),
+ mk('Resume Clinic with Alumni','Career','2026-10-21','14:00','16:00','Seminar Hall A',120,'approved',64,0,'One-on-one resume reviews by alumni.'),
+ mk('Inter-Dept Futsal','Sports','2026-10-23','16:00','19:00','Open Air Theatre',80,'approved',30,0,'Knockout futsal across departments.'),
+ mk('Intro to Prompt Engineering','Workshop','2026-10-25','10:00','12:00','Seminar Hall A',100,'approved',72,0,'Hands-on session, bring a laptop.')
+];
+let S={tab:'home',q:'',cat:'All',int:['Tech'],mine:[],form:{}};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('show'),2200)}
+function go(t){S.tab=t;render();window.scrollTo(0,0)}
+function qr(canvas,text){
+  const n=25,c=canvas.getContext('2d');canvas.width=canvas.height=n*8;c.fillStyle='#fff';c.fillRect(0,0,n*8,n*8);c.fillStyle='#10122b';
+  let h=2166136261;for(const ch of text){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
+  const r=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return (h>>>0)/4294967296};
+  const fin=(x,y)=>{c.fillRect(x*8,y*8,56,56);c.fillStyle='#fff';c.fillRect(x*8+8,y*8+8,40,40);c.fillStyle='#10122b';c.fillRect(x*8+16,y*8+16,24,24)};
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);if(!inF&&r()>.5)c.fillRect(x*8,y*8,8,8)}
+  [[0,0],[n-7,0],[0,n-7]].forEach(p=>{c.fillStyle='#10122b';fin(p[0],p[1])});
+}
+function showTicket(t,e){
+  const d=$('#dlg');d.innerHTML=`<h3>${e.title}</h3><p class="meta">${e.date} · ${e.start} · ${e.venue}</p><canvas id="qc"></canvas><p><b>${t.id}</b><br><span class="meta">Show this at the door. (Demo code, generated from the ticket ID.)</span></p><button class="btn" onclick="$('#dlg').close()">Close</button>`;
+  d.showModal();qr($('#qc'),t.id+e.id);
+}
+function register(id){
+  const e=E.find(x=>x.id==id);if(e.tickets.length>=e.cap)return toast('This event is full');
+  const t={id:'CP-'+(++uid),name:'You',in:false,me:true};e.tickets.push(t);S.mine.push({e:id,t:t.id});
+  toast('Registered. Reminder set for 1 hour before.');showTicket(t,e);render();
+}
+function score(e){return (S.int.includes(e.cat)?2:0)+(e.tickets.length/e.cap)}
+function home(){
+  const A=E.filter(e=>e.status==='approved'),reg=A.reduce((s,x)=>s+x.tickets.length,0);
+  return `<section style="padding:36px 0 28px"><h1 style="font-size:clamp(34px,6vw,56px);max-width:15ch">Every campus event, found, approved and counted in one place.</h1>
+  <p style="font-size:18px;color:var(--mute);max-width:56ch;margin:14px 0 22px">Students discover and register for events with a QR ticket. Organizers upload a poster, clear the venue, get approval and watch attendance live.</p>
+  <div class="row"><button class="btn" onclick="go('student')">Find an event</button><button class="btn alt" onclick="go('host')">Host an event</button></div></section>
+  <div class="kpi"><div><b>${A.length}</b><br><span class="meta">Events open now</span></div><div><b>${reg}</b><br><span class="meta">Students registered</span></div><div><b>${E.filter(e=>e.status==='pending').length}</b><br><span class="meta">Awaiting approval</span></div></div>
+  <div class="grid" style="margin-top:8px">
+   <div class="card"><h3>For students</h3><p class="meta">Search and filter events, get recommendations from your interests, register in one tap and show a QR ticket at the door.</p><button class="btn alt" onclick="go('student')">Browse events</button></div>
+   <div class="card"><h3>For organizers</h3><p class="meta">Turn a poster into a draft, catch venue clashes with alternative slots, then track approval from request to decision.</p><button class="btn alt" onclick="go('host')">Create an event</button></div>
+   <div class="card"><h3>For approvers and teams</h3><p class="meta">Review requests with a full history, then follow registrations and live QR check-in on the dashboard.</p><button class="btn alt" onclick="go('dash')">Open dashboard</button></div></div>`;
+}
+function student(){
+  const list=E.filter(e=>e.status==='approved'&&(S.cat==='All'||e.cat===S.cat)&&(e.title+e.desc+e.venue).toLowerCase().includes(S.q.toLowerCase())).sort((a,b)=>score(b)-score(a));
+  return `<div class="hero"><h1>Find your next campus event</h1><p>Every approved event in one place. Pick your interests and the list reorders for you.</p><p class="meta">Install it: on iPhone tap Share, then Add to Home Screen. On Android tap the menu, then Add to Home screen.</p></div>
+  <div class="row"><input id="q" placeholder="Search events, venues…" value="${S.q}" style="max-width:360px"></div>
+  <div class="row"><span class="meta">Filter</span>${['All',...CATS].map(c=>`<button class="chip ${S.cat===c?'on':''}" onclick="S.cat='${c}';render()">${c}</button>`).join('')}</div>
+  <div class="row"><span class="meta">My interests</span>${CATS.map(c=>`<button class="chip ${S.int.includes(c)?'on':''}" onclick="togInt('${c}')">${c}</button>`).join('')}</div>
+  <div class="grid">${list.map(e=>{const mine=S.mine.find(m=>m.e==e.id),full=e.tickets.length>=e.cap;
+   return `<div class="card ev"><div><span class="tag">${e.cat}</span> ${S.int.includes(e.cat)?'<span class="match">Matches your interests</span>':''}</div><h3>${e.title}</h3>
+   <div class="meta">${e.date} · ${e.start}–${e.end}<br>${e.venue}</div><div>${e.desc}</div>
+   <div class="bar"><b style="width:${100*e.tickets.length/e.cap}%"></b></div><div class="meta">${e.tickets.length} of ${e.cap} registered</div>
+   ${mine?`<button class="btn alt" onclick="showTicket(E.find(x=>x.id==${e.id}).tickets.find(t=>t.id=='${mine.t}'),E.find(x=>x.id==${e.id}))">View my ticket</button>`:`<button class="btn" ${full?'disabled':''} onclick="register(${e.id})">${full?'Full':'Register'}</button>`}</div>`}).join('')||'<p class="meta">No events match. Clear the filters to see everything.</p>'}</div>`;
+}
+function togInt(c){S.int=S.int.includes(c)?S.int.filter(x=>x!==c):[...S.int,c];render()}
+function conflicts(f,ex){return E.filter(x=>x.status!=='rejected'&&x.id!==ex&&x.venue===f.venue&&x.date===f.date&&f.start<x.end&&f.end>x.start)}
+function checkBox(){
+  const f=S.form,box=$('#cbox');if(!box)return;
+  if(!f.venue||!f.date||!f.start||!f.end){box.innerHTML='';return}
+  if(f.end<=f.start){box.innerHTML='<div class="box bad">End time must be after start time.</div>';return}
+  const c=conflicts(f);
+  if(!c.length){box.innerHTML='<div class="box ok">No venue conflict. This slot is free.</div>';return}
+  const dur=mm(f.end)-mm(f.start),cap=+f.cap||0;
+  const altV=VEN.filter(v=>v.n!==f.venue&&v.c>=cap&&!conflicts({...f,venue:v.n}).length).map(v=>v.n);
+  const slots=[];for(let s=480;s+dur<=1260&&slots.length<3;s+=30){if(!conflicts({...f,start:hh(s),end:hh(s+dur)}).length)slots.push(hh(s)+'–'+hh(s+dur))}
+  box.innerHTML=`<div class="box bad"><b>Conflict:</b> ${c.map(x=>`${x.title} (${x.start}–${x.end}, ${x.status})`).join('; ')}</div>
+  <div class="box info"><b>Same venue, other times:</b> ${slots.join(', ')||'none today'}<br><b>Same time, other venues:</b> ${altV.map(v=>`<button class="chip" onclick="S.form.venue='${v}';render()">${v}</button>`).join(' ')||'none fit your capacity'}</div>`;
+}
+function host(){
+  const f=S.form;
+  return `<div class="hero"><h1>Host an event</h1><p>Upload a poster to draft the event, fix any conflicts, then send it for approval.</p></div>
+  <div class="card"><div class="drop"><input type="file" id="poster" accept="image/*" style="display:none">
+   <button class="btn alt" onclick="$('#poster').click()">Upload poster</button> <button class="btn alt" onclick="extract()">Use sample poster</button>
+   <div id="xs" class="meta" style="margin-top:8px">Extraction is simulated in this demo: it fills the form with a draft you can edit.</div></div>
+  <div class="two" style="margin-top:14px">
+   <div><label>Title</label><input id="f_title" value="${f.title||''}"></div>
+   <div><label>Category</label><select id="f_cat">${CATS.map(c=>`<option ${f.cat===c?'selected':''}>${c}</option>`).join('')}</select></div>
+   <div><label>Date</label><input type="date" id="f_date" value="${f.date||''}"></div>
+   <div><label>Expected attendees</label><input type="number" id="f_cap" value="${f.cap||''}"></div>
+   <div><label>Start</label><input type="time" id="f_start" value="${f.start||''}"></div>
+   <div><label>End</label><input type="time" id="f_end" value="${f.end||''}"></div>
+   <div><label>Venue</label><select id="f_venue"><option value="">Choose venue</option>${VEN.map(v=>`<option ${f.venue===v.n?'selected':''} value="${v.n}">${v.n} (seats ${v.c})</option>`).join('')}</select></div>
+   <div><label>Description</label><input id="f_desc" value="${f.desc||''}"></div></div>
+  <div id="cbox"></div><button class="btn" onclick="submitEv()">Submit for approval</button></div>`;
+}
+function extract(){
+  const x=$('#xs');x.textContent='Reading poster…';
+  setTimeout(()=>{S.form={title:'Quiz Fest: Brain Wars',cat:'Cultural',date:'2026-10-24',start:'10:00',end:'13:00',venue:'CS Lab 2',cap:'50',desc:'Team quiz with cash prizes. Teams of three.'};render();toast('Draft created from poster. Review the fields.')},700);
+}
+function readForm(){['title','cat','date','cap','start','end','venue','desc'].forEach(k=>{const e=$('#f_'+k);if(e)S.form[k]=e.value})}
+function submitEv(){
+  readForm();const f=S.form;
+  if(!f.title||!f.date||!f.start||!f.end||!f.venue||!f.cap)return toast('Fill in title, date, time, venue and attendees');
+  if(f.end<=f.start)return toast('End time must be after start time');
+  if(conflicts(f).length)return toast('Resolve the venue conflict first');
+  const v=VEN.find(v=>v.n===f.venue);if(+f.cap>v.c)return toast(v.n+' seats only '+v.c);
+  E.unshift(mk(f.title,f.cat,f.date,f.start,f.end,f.venue,+f.cap,'pending',0,0,f.desc||''));S.form={};toast('Submitted. Track it under Approvals.');go('approvals');
+}
+function decide(id,ok){const e=E.find(x=>x.id==id);
+  if(ok&&conflicts(e,e.id).some(x=>x.status==='approved'))return toast('Cannot approve: venue now double-booked');
+  e.status=ok?'approved':'rejected';e.log.push({m:(ok?'Approved':'Rejected')+' by Dean Office'});render()}
+function approvals(){
+  const p=E.filter(e=>e.status==='pending');
+  return `<div class="hero"><h1>Approvals</h1><p>Pending requests, with a full history on every event.</p></div>
+  <h3>Waiting for review (${p.length})</h3><div class="grid" style="margin:12px 0 24px">${p.map(e=>`<div class="card ev"><span class="tag pending">pending</span><h3>${e.title}</h3><div class="meta">${e.date} · ${e.start}–${e.end} · ${e.venue}</div>
+   <div class="row"><button class="btn" onclick="decide(${e.id},1)">Approve</button><button class="btn bad" onclick="decide(${e.id},0)">Reject</button></div></div>`).join('')||'<p class="meta">Nothing waiting. Host an event to see it appear here.</p>'}</div>
+  <h3>History</h3>${E.filter(e=>e.status!=='pending'||e.log.length>1).concat(p).filter((e,i,a)=>a.indexOf(e)===i).map(e=>`<div class="card" style="margin-top:10px"><b>${e.title}</b> <span class="tag ${e.status}">${e.status}</span>${e.log.map(l=>`<div class="log">${l.m}</div>`).join('')}</div>`).join('')}`;
+}
+let selE=null;
+function dash(){
+  const A=E.filter(e=>e.status==='approved');if(!selE||!A.find(e=>e.id==selE))selE=A[0]&&A[0].id;
+  const e=A.find(x=>x.id==selE),reg=A.reduce((s,x)=>s+x.tickets.length,0),chk=A.reduce((s,x)=>s+x.tickets.filter(t=>t.in).length,0);
+  return `<div class="hero"><h1>Organizer dashboard</h1><p>Registrations and live check-in across your approved events.</p></div>
+  <div class="kpi"><div><b>${A.length}</b><br><span class="meta">Live events</span></div><div><b>${reg}</b><br><span class="meta">Registrations</span></div><div><b>${chk}</b><br><span class="meta">Checked in</span></div><div><b>${reg?Math.round(100*chk/reg):0}%</b><br><span class="meta">Attendance rate</span></div></div>
+  <div class="card" style="margin-bottom:14px">${A.map(x=>{const c=x.tickets.filter(t=>t.in).length;return `<div style="margin:10px 0"><b>${x.title}</b> <span class="meta">${c} in / ${x.tickets.length} registered</span><div class="bar"><b style="width:${100*x.tickets.length/x.cap}%;opacity:.35"></b></div><div class="bar in" style="margin-top:3px"><b style="width:${x.tickets.length?100*c/x.tickets.length:0}%"></b></div></div>`}).join('')}</div>
+  ${e?`<div class="card"><h3>QR check-in</h3><div class="row"><select id="se" style="max-width:300px" onchange="selE=this.value;render()">${A.map(x=>`<option value="${x.id}" ${x.id==e.id?'selected':''}>${x.title}</option>`).join('')}</select></div>
+  <div class="row"><input id="code" placeholder="Ticket code, e.g. ${e.tickets[0]?e.tickets[0].id:'CP-101'}" style="max-width:240px"><button class="btn" onclick="scan()">Check in</button><button class="btn alt" onclick="scan(1)">Simulate next scan</button></div>
+  <p class="meta">Type a code or simulate the camera scanning the next ticket. The bars above update instantly.</p></div>`:''}`;
+}
+function scan(auto){
+  const e=E.find(x=>x.id==selE);let t;
+  if(auto)t=e.tickets.find(t=>!t.in);else{const v=$('#code').value.trim().toUpperCase();t=e.tickets.find(t=>t.id===v);if(!t)return toast('Ticket not found for this event');if(t.in)return toast('Already checked in')}
+  if(!t)return toast('Everyone registered is checked in');t.in=true;toast(t.name+' checked in ('+t.id+')');render();
+}
+function render(){
+  $('#nav').innerHTML=[['home','🏠','Home'],['student','🔎','Find'],['host','➕','Host'],['approvals','✅','Approvals'],['dash','📊','Dashboard']].map(([k,i,l])=>`<button class="${S.tab===k?'on':''}" onclick="go('${k}')"><span class="ic">${i}</span>${l}</button>`).join('');
+  $('#app').innerHTML={home,student,host,approvals,dash}[S.tab]();
+  const q=$('#q');if(q)q.oninput=e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(p,p)};
+  document.querySelectorAll('[id^=f_]').forEach(el=>el.oninput=()=>{readForm();checkBox()});
+  if(S.tab==='host')checkBox();
+}
+render();
+</script>
+</body>
+</html>
